@@ -560,6 +560,16 @@ More importantly, the means for identifying a flow for the purpose of ensuring i
 
 This document does not define any mechanism for defining or enforcing service contact instance affinity.
 
+## Policy Delivery
+
+As shown in Figure 1, the control plane and management plane need to communicate some policies to the data plane. The control plane and management plane can be implemented in a control center entity.
+
+If the C-PS is logically centralized, it needs to communicate some policies to the CATS-Forwarders. In this case, the network entity containing the C-PS, such as a control center, should be able to perform management and/or control functions, including computing information awareness function, service scheduling function, etc. It collects computing and network information, and schedules service based on computing and network information. The CATS-Forwarders performs data plane functions or routing functions.
+
+If the C-PS is collocated with an Ingress CATS-Forwarder, the functions that the Ingress CATS-Forwarder supports would include computing information awareness function, service scheduling function and data forwarding function. In this case, Ingress CATS-Forwarders make forwarding decisions for a given service request that has been received from a client according to the capabilities and status information of both service instances and network.
+
+In either case, management plane policies need to be delivered to the CATS-Forwarders. For example, a general scheduling policy can be sent to the Ingress CATS-Forwarder, which would include policy execution node information, topology information and configuration information for real-time state collection of resources. If the C-PS is collocated with an Ingress CATS-Forwarder, the policy execution node would be the Ingress CATS-Forwarder. The topology information could be the nodes that need to be communicated to obtain the computing information. According to the topology information and configuration information in the received general scheduling policy, the Ingress CATS-Forwarder obtains the real-time status information of the computing resource, the service resource or the network resource. Based on these resource state information and the scheduling policy information in the general scheduling policy, the ingress CATS-Forwarder can obtain the target scheduling policy for the service requirement and schedule the corresponding service's traffic.
+
 # Security Considerations
 
 The computing resource information changes over time very frequently, especially with the creation and termination of service contact instances. When such an information is carried in a routing protocol, too many updates may affect network stability. This issue could be exploited by an attacker (e.g., by spawning and deleting service contact instances very rapidly). CATS solutions must support guards against such misbehaviors. For example, these solutions should support aggregation techniques, dampening mechanisms, and threshold-triggered distribution updates.
